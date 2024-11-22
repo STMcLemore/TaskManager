@@ -1,0 +1,72 @@
+﻿@page "/"
+@inject IHttpClientFactory HttpClientFactory
+
+<h3>To-Do List</h3>
+
+@if (tasks == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>DueDate</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var taskObject in tasks)
+            {
+                <tr>
+                    <td>@taskObject.Id</td>
+                    <td>@taskObject.Title</td>
+                    <td>@taskObject.Description</td>
+                    <td>@taskObject.Priority</td>
+                    <td>@taskObject.DueDate.ToString("yyyy-MM-dd")</td>
+                    <td>@taskObject.Type</td>
+                    <td>
+                        @if (taskObject.IsCompleted)
+                        {
+                            <span class="badge bg-success">Completed</span>
+                        }
+                        else
+                        {
+                            <button class="btn btn-sm btn-primary" @onclick="() => MarkComplete(taskObject.Id)">Mark Complete</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    private HttpClient Http => HttpClientFactory.CreateClient("ApiClient");
+
+    private List<TaskObject> tasks = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        tasks = await Http.GetFromJsonAsync<List<TaskObject>>("api/task");
+    }
+
+    private async Task MarkComplete(int id)
+    {
+        var task = tasks.FirstOrDefault(t => t.Id == id);
+        if (task != null)
+        {
+            task.IsCompleted = true;
+            await Http.PutAsJsonAsync($"api/task/{id}", task);
+            StateHasChanged();
+        }
+    }
+}
+
+
