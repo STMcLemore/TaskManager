@@ -1,3 +1,4 @@
+using Blazored.Modal;
 using Microsoft.EntityFrameworkCore;
 using TaskManager;
 using TaskManager.Components;
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+builder.Services.AddBlazoredModal();
 
 builder.Services.AddHttpClient("ApiClient", client =>
     {
