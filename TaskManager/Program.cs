@@ -10,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddBlazoredModal();
+builder.Services.AddScoped<TaskStateService>();
 
 builder.Services.AddHttpClient("ApiClient", client =>
     {

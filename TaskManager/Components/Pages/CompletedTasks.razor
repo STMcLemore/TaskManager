@@ -1,0 +1,52 @@
+﻿@page "/CompletedTasks"
+@inject IHttpClientFactory HttpClientFactory
+
+<h3>CompletedTasks</h3>
+
+@if (completedTasks.Any())
+{
+    <table class="table table-success">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>DueDate</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var taskObject in completedTasks)
+            {
+                <tr>
+                    <td>@taskObject.Id</td>
+                    <td>@taskObject.Title</td>
+                    <td>@taskObject.Description</td>
+                    <td>@taskObject.Priority</td>
+                    <td>@taskObject.DueDate.ToString("MM-dd-yyyy")</td>
+                    <td>@taskObject.Type</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code 
+{
+    private HttpClient Http => HttpClientFactory.CreateClient("ApiClient");
+    private List<TaskObject> tasks = new();
+    private List<TaskObject> completedTasks = new();
+
+    [Inject] private TaskStateService TaskStateService { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!TaskStateService.Tasks.Any() && !TaskStateService.CompletedTasks.Any())
+        {
+            var allTasks = await Http.GetFromJsonAsync<List<TaskObject>>("api/task");
+            tasks = allTasks.Where(t => !t.IsCompleted).ToList();
+            completedTasks = allTasks.Where(t => t.IsCompleted).ToList();
+        }
+    }
+}
