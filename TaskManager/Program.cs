@@ -2,6 +2,7 @@ using Blazored.Modal;
 using Microsoft.EntityFrameworkCore;
 using TaskManager;
 using TaskManager.Components;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddBlazoredModal();
 builder.Services.AddScoped<TaskStateService>();
+builder.Services.AddMudServices();
 
 builder.Services.AddHttpClient("ApiClient", client =>
     {

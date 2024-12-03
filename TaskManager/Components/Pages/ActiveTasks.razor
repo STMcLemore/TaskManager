@@ -11,41 +11,45 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Priority</th>
-                <th>DueDate</th>
-                <th>Type</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var taskObject in tasks)
-            {
-                <tr>
-                    <td>@taskObject.Id</td>
-                    <td>@taskObject.Title</td>
-                    <td>@taskObject.Description</td>
-                    <td>@taskObject.Priority</td>
-                    <td>@taskObject.DueDate.ToString("MM-dd-yyyy")</td>
-                    <td>@taskObject.Type</td>
-                    <td>
-                        <button class="btn btn-sm btn-success" @onclick="() => ConfirmCompletion(taskObject)">Mark Complete</button>
-                        <button class="btn btn-sm btn-secondary" @onclick="() => EditTask(taskObject)">Edit Task</button>
-                        <button class="btn btn-sm btn-danger" @onclick="() => ConfirmDelete(taskObject)">Delete</button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <MudPaper Height="400px" Width="100%">
+    <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+            <table class="table" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Priority</th>
+                            <th>DueDate</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var taskObject in tasks)
+                        {
+                            <tr>
+                                <td>@taskObject.Id</td>
+                                <td>@taskObject.Title</td>
+                                <td>@taskObject.Description</td>
+                                <td>@taskObject.Priority</td>
+                                <td>@taskObject.DueDate?.ToString("MM-dd-yyyy")</td>
+                                <td>@taskObject.Type</td>
+                                <td>
+                                    <button class="btn btn-sm btn-success" @onclick="() => ConfirmCompletion(taskObject)">Mark Complete</button>
+                                    <button class="btn btn-sm btn-secondary" @onclick="() => EditTask(taskObject)">Edit Task</button>
+                                    <button class="btn btn-sm btn-danger" @onclick="() => ConfirmDelete(taskObject)">Delete</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+        </MudContainer>
+    </MudPaper>
 
     
 
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered" style="margin-top: -100px;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
@@ -63,7 +67,7 @@ else
     </div>
 
     <div class="modal fade" id="completeModal" tabindex="-1" aria-labelledby="completeModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered" style="margin-top: -100px;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="completeModalLabel">Confirm Completion</h5>
@@ -82,7 +86,7 @@ else
 
 
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered" style="margin-top: -50px;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel">Edit Task Details</h5>

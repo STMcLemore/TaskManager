@@ -1,62 +1,76 @@
 ﻿@page "/addtask"
 @using Microsoft.AspNetCore.Components.Forms
+@using MudBlazor.Utilities
 @inject IHttpClientFactory HttpClientFactory
 @rendermode InteractiveServer
+@using FluentValidation
 
 
 
 <h3>Add New Task</h3>
 
-<div class="row">
-    <div class="Col-md-4">
-<EditForm Model="@taskObject" OnValidSubmit="HandleValidSubmit" FormName="NewTask1" Enhance="true" method="post">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
+<MudPaper Width="100%" Class="d-flex justify-center align-center p-5">
+    <MudGrid Justify="Justify.Center" AlignItems="Center">
+        <div class="row">
             <div class="Col-md-4">
-        <label for="title" class="form-label">Title: </label>
-                <InputText id="title" class="form-control col-sm-8" @bind-Value="@taskObject.Title" placeholder="Enter Title"></InputText>
-        <ValidationMessage For="() => taskObject.Title" />
-    </div>
+                <EditForm Model="@taskObject" OnValidSubmit="HandleValidSubmit" FormName="NewTask1" Enhance="true" method="post">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
 
-            <div class="Col-md-4">
-                <label for="description" class="form-label">Description: </label>
-        <InputTextArea id="description" class="form-control col-sm-8" @bind-Value="@taskObject.Description" placeholder="Enter Description"></InputTextArea>
-        <ValidationMessage For="() => taskObject.Description" />
-    </div>
+                    <div class="Col-md-4">
+                        <label for="title" class="form-label">Title: </label>
+                        <InputText id="title" class="form-control col-sm-8" @bind-Value="@taskObject.Title" placeholder="Enter Title" Style="width: 600px;"></InputText>
+                        <ValidationMessage For="() => taskObject.Title" />
+                    </div>  
 
-            <div class="Col-md-4">
-                <label for="priority" class="form-label">Priority: </label>
-        <InputSelect id="priority" class="form-control col-sm-8" @bind-Value="@taskObject.Priority" placeholder="Enter Priority">
-            <option value="@TaskPriority.Low">Low</option>
-            <option value="@TaskPriority.Medium">Medium</option>
-            <option value="@TaskPriority.High">High</option>
-        </InputSelect>
-        <ValidationMessage For="() => taskObject.Priority" />
-    </div>
+                    <br/>
 
-            <div class="Col-md-4">
-                <label for="dueDate" class="form-label">Due Date: </label>
-        <InputDate id="DueDate" class="form-control col-sm-8" @bind-Value="@taskObject.DueDate" />
-        <ValidationMessage For="() => taskObject.DueDate" />
-    </div>
+                    <div class="Col-md-4">
+                        <label for="description" class="form-label">Description: </label>
+                        <InputText id="title" class="form-control col-sm-8" @bind-Value="@taskObject.Description" placeholder="Enter Description"></InputText>
+                        <ValidationMessage For="() => taskObject.Title" />
+                    </div>
 
-            <div class="Col-md-4">
-                <label for="type" class="form-label">Task Type: </label>
-        <InputSelect id="type" class="form-control col-sm-8" @bind-Value="@taskObject.Type">
-            <option value="@TaskType.Daily">Daily</option>
-            <option value="@TaskType.Weekly">Weekly</option>
-            <option value="@TaskType.Monthly">Monthly</option>
-        </InputSelect>
-        <ValidationMessage For="() => taskObject.Type" />
-    </div>
+                    <br />
 
-    <br />
+                    <div class="Col-md-4">
+                        <label for="priority" class="form-label">Priority: </label>
+                        <InputSelect id="priority" class="form-control col-sm-8" @bind-Value="@taskObject.Priority" placeholder="Enter Priority">
+                            <option value="@TaskPriority.Low">Low</option>
+                            <option value="@TaskPriority.Medium">Medium</option>
+                            <option value="@TaskPriority.High">High</option>
+                        </InputSelect>
+                        <ValidationMessage For="() => taskObject.Priority" />
+                    </div>
 
-    <button type="submit" class="btn btn-primary">Add Task</button>
-</EditForm>
-</div>
-</div>
+                    <br />
+
+                    <div class="Col-md-4">
+                        <label for="dueDate" class="form-label">Due Date: </label>
+                        <InputDate id="DueDate" class="form-control col-sm-8" @bind-Value="@taskObject.DueDate" />
+                        <ValidationMessage For="() => taskObject.DueDate" />
+                    </div>
+
+                    <br />
+
+                    <div class="Col-md-4">
+                        <label for="type" class="form-label">Task Type: </label>
+                        <InputSelect id="type" class="form-control col-sm-8" @bind-Value="@taskObject.Type">
+                            <option value="@TaskType.Daily">Daily</option>
+                            <option value="@TaskType.Weekly">Weekly</option>
+                            <option value="@TaskType.Monthly">Monthly</option>
+                        </InputSelect>
+                        <ValidationMessage For="() => taskObject.Type" />
+                    </div>
+
+                    <br />
+
+                    <button type="submit" class="btn btn-primary">Add Task</button>
+                </EditForm>
+            </div>
+        </div>
+    </MudGrid>
+</MudPaper>
 
 @if (isSuccess)
 {
@@ -66,6 +80,8 @@
 {
     <div class="alert alert-danger mt-3">An error occurred while adding the task.</div>
 }
+
+
 
 @code
 {
@@ -80,7 +96,7 @@
 
     private bool isSuccess = false;
     private bool isError = false;
-
+    int spacing;
 
 
     private async Task HandleValidSubmit()
