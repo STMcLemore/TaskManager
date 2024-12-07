@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TaskManager;
 using TaskManager.Components;
 using MudBlazor.Services;
+using TaskManager.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddBlazoredModal();
 builder.Services.AddScoped<TaskStateService>();
+builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddMudServices();
 
 builder.Services.AddHttpClient("ApiClient", client =>

@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using TaskManager.Services
 @inject IHttpClientFactory HttpClientFactory
 @rendermode InteractiveServer
 @inject IJSRuntime JSRuntime
@@ -138,9 +139,9 @@ else
     private bool isLoading = false;
     private List<TaskObject> tasks = new();
     private List<TaskObject> completedTasks = new();
-    private TaskObject? selectedTask = new TaskObject();
+    private TaskObject? selectedTask = new();
     private int selectedTaskId;
-    private TaskObject editingTask = new TaskObject(); // Temporary model for use in the EditTask modal to ensure no changes are shown until saved
+    private TaskObject editingTask = new(); // Temporary model for use in the EditTask modal to ensure no changes are shown until saved
 
 
     protected override async Task OnInitializedAsync()
@@ -148,7 +149,8 @@ else
         tasks = await Http.GetFromJsonAsync<List<TaskObject>>("api/task");
     }
 
-    [Inject] private TaskStateService TaskStateService { get; set; }
+    [Inject]
+    private TaskStateService TaskStateService { get; set; }
 
 
     protected override async Task OnParametersSetAsync()
@@ -201,14 +203,14 @@ else
         selectedTask = task;
 
         editingTask = new TaskObject //Deep clone the task into editingTask
-            {
+        {
                 Id = task.Id,
                 Title = task.Title,
                 Description = task.Description,
                 Priority = task.Priority,
                 DueDate = task.DueDate,
                 Type = task.Type
-            };
+        };
 
 
         JSRuntime.InvokeVoidAsync("bootstrapModal.show", "#editModal");

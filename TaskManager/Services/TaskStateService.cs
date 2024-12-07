@@ -1,6 +1,6 @@
 ﻿using TaskManager.Components.Pages;
 
-namespace TaskManager
+namespace TaskManager.Services
 {
     public class TaskStateService
     {
