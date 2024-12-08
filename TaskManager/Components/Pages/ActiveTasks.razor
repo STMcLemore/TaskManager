@@ -6,6 +6,7 @@
 
 <h2>Active Tasks</h2>
 
+
 @if (tasks == null)
 {
     <p><em>Loading...</em></p>
@@ -141,6 +142,7 @@ else
     private List<TaskObject> completedTasks = new();
     private TaskObject? selectedTask = new();
     private int selectedTaskId;
+    private string selectedSortCriteria = "Priority";
     private TaskObject editingTask = new(); // Temporary model for use in the EditTask modal to ensure no changes are shown until saved
 
 
@@ -163,6 +165,7 @@ else
             completedTasks = allTasks.Where(t => t.IsCompleted).ToList();
         }
     }
+
 
     private async Task MarkComplete(int id)
     {

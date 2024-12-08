@@ -10,7 +10,6 @@ namespace TaskManager
     [Route("api/[controller]")]
     public class TaskController(ITaskService taskService) : ControllerBase
     {
-        //private readonly TaskManagerDbContext _context;
         private readonly ITaskService _taskService = taskService;
 
         [HttpGet]

@@ -56,6 +56,7 @@
                     <div class="Col-md-4">
                         <label for="type" class="form-label">Task Type: </label>
                         <InputSelect id="type" class="form-control col-sm-8" @bind-Value="@taskObject.Type">
+                            <option value="@TaskType.Once">Once</option>
                             <option value="@TaskType.Daily">Daily</option>
                             <option value="@TaskType.Weekly">Weekly</option>
                             <option value="@TaskType.Monthly">Monthly</option>
@@ -89,7 +90,7 @@
     private TaskObject taskObject = new TaskObject
     {
             Priority = TaskPriority.Low,  // Default value for Priority
-            Type = TaskType.Daily,        // Default value for Type
+            Type = TaskType.Once,        // Default value for Type
             IsCompleted = false,           // Default value for IsCompleted
             DueDate = DateTime.Today
     };

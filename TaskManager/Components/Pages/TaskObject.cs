@@ -23,7 +23,7 @@ namespace TaskManager.Components.Pages
 
     public enum TaskType
     {
-        Daily, Weekly, Monthly
+        Once, Daily, Weekly, Monthly
     }
 
 }
