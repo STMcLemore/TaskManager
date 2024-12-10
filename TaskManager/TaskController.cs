@@ -15,45 +15,85 @@ namespace TaskManager
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TaskObject?>>> GetTasks()
         {
-            var result = await _taskService.GetTasks();
-            return Ok(result);
+            try
+            {
+                var result = await _taskService.GetTasks();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TaskObject>> GetTask(int id)
         {
-            var taskObject = await _taskService.GetTask(id);
-
-            if (taskObject == null)
+            try
             {
-                return NotFound();
+                var taskObject = await _taskService.GetTask(id);
+
+                if (taskObject == null)
+                {
+                    return NotFound($"Task with ID {id} not found.");
+                }
+
+                return Ok(taskObject);
             }
-            return Ok(taskObject);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
+
 
         [HttpPost]
         public async Task<ActionResult<TaskObject>> PostTask(TaskObject taskObject)
         {
-            if (taskObject is null)
+            try
             {
-                return BadRequest("Data is missing");
+                if (taskObject == null)
+                {
+                    return BadRequest("Task data is missing.");
+                }
+
+                await _taskService.PostTask(taskObject);
+                return Ok(taskObject);
             }
-            await _taskService.PostTask(taskObject);
-            return Ok(taskObject);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTask(int id, TaskObject taskObject)
         {
-            await _taskService.PutTask(id, taskObject);
-            return Ok();
+            try
+            {
+                await _taskService.PutTask(id, taskObject);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTask(int id)
         {
-            await _taskService.DeleteTask(id);
-            return Ok();
+            try
+            {
+                await _taskService.DeleteTask(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }

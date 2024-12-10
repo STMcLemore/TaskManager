@@ -5,7 +5,7 @@
 @inject IJSRuntime JSRuntime
 
 
-<h3>CompletedTasks</h3>
+<h2>Completed Tasks</h2>
 
 @if (completedTasks.Any())
 {
@@ -113,7 +113,7 @@
                 StateHasChanged();
             }
 
-            JSRuntime.InvokeVoidAsync("bootstrapModal.hide", "#deleteModal");
+            await JSRuntime.InvokeVoidAsync("bootstrapModal.hide", "#deleteModal");
         }
     }
 
@@ -136,7 +136,7 @@
                     StateHasChanged();
                 }
 
-                JSRuntime.InvokeVoidAsync("bootstrapModal.hide", "#deleteAllModal");
+                await JSRuntime.InvokeVoidAsync("bootstrapModal.hide", "#deleteAllModal");
             }
         }
     }
