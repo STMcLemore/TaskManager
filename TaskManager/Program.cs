@@ -1,9 +1,9 @@
 using Blazored.Modal;
 using Microsoft.EntityFrameworkCore;
-using TaskManager;
 using TaskManager.Components;
 using MudBlazor.Services;
 using TaskManager.Services;
+using TaskManager.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

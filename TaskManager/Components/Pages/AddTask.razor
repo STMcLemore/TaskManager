@@ -15,7 +15,6 @@
             <div class="Col-md-4">
                 <EditForm Model="@taskObject" OnValidSubmit="HandleValidSubmit" FormName="NewTask1" Enhance="true" method="post">
                     <DataAnnotationsValidator />
-                    <ValidationSummary />
 
                     <div class="Col-md-4">
                         <label for="title" class="form-label">Title: </label>
@@ -28,7 +27,7 @@
                     <div class="Col-md-4">
                         <label for="description" class="form-label">Description: </label>
                         <InputText id="title" class="form-control col-sm-8" @bind-Value="@taskObject.Description" placeholder="Enter Description"></InputText>
-                        <ValidationMessage For="() => taskObject.Title" />
+                        <ValidationMessage For="() => taskObject.Description" />
                     </div>
 
                     <br />
@@ -40,7 +39,6 @@
                             <option value="@TaskPriority.Medium">Medium</option>
                             <option value="@TaskPriority.High">High</option>
                         </InputSelect>
-                        <ValidationMessage For="() => taskObject.Priority" />
                     </div>
 
                     <br />
@@ -48,7 +46,6 @@
                     <div class="Col-md-4">
                         <label for="dueDate" class="form-label">Due Date: </label>
                         <InputDate id="DueDate" class="form-control col-sm-8" @bind-Value="@taskObject.DueDate" />
-                        <ValidationMessage For="() => taskObject.DueDate" />
                     </div>
 
                     <br />

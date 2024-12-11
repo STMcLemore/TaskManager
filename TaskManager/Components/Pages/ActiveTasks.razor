@@ -120,6 +120,7 @@ else
                     <div class="mb-3">
                         <label for="taskType" class="form-label">Type</label>
                         <select id="taskType" class="form-select" @bind="editingTask.Type">
+                            <option value="@TaskType.Once">Once</option>
                             <option value="@TaskType.Daily">Daily</option>
                             <option value="@TaskType.Weekly">Weekly</option>
                             <option value="@TaskType.Monthly">Monthly</option>

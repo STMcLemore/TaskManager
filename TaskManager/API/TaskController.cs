@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using TaskManager.Components.Pages;
 using TaskManager.Services;
-using static TaskManager.TaskManagerDbContext;
+using TaskManager.Data;
 
-namespace TaskManager
+namespace TaskManager.API
 {
     [ApiController]
     [Route("api/[controller]")]

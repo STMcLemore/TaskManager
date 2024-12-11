@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskManager.Components.Pages;
+using TaskManager.Data;
 
 namespace TaskManager.Services
 {
