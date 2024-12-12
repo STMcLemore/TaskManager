@@ -4,6 +4,7 @@ using TaskManager.Components;
 using MudBlazor.Services;
 using TaskManager.Services;
 using TaskManager.Data;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,17 @@ builder.Services.AddBlazoredModal();
 builder.Services.AddScoped<TaskStateService>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddMudServices();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "TaskManager",
+        Version = "v1",
+        Description = "API documentation for TaskTracker",
+    });
+
+});
 
 builder.Services.AddHttpClient("ApiClient", client =>
     {
@@ -31,12 +43,19 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Task Manager v1");
+    c.RoutePrefix = "Swagger"; // Swagger UI accessible at /swagger
+});
 app.UseHttpsRedirection();
+
 app.UseRouting();
+
 app.UseStaticFiles();
 app.UseAntiforgery();
 
