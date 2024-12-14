@@ -19,3 +19,5 @@ This application was created as a capstone project for the Code Louisville Softw
 - Make your application a CRUD API.
 
 - Make your application asynchronous.
+
+- Add comments to your code explaining how you are using at least 2 of the solid principles (TaskObject class).
