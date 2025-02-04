@@ -9,6 +9,7 @@
 
 @if (completedTasks.Any())
 {
+    <h5><u> One Offs</u></h5>
     <table class="table table-success">
         <thead>
             <tr>
@@ -24,7 +25,103 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var taskObject in completedTasks)
+            @foreach (var taskObject in completedTasks.Where(t => t.Type == TaskType.Once))
+            {
+                <tr>
+                    <td>@taskObject.Id</td>
+                    <td>@taskObject.Title</td>
+                    <td>@taskObject.Description</td>
+                    <td>@taskObject.Priority</td>
+                    <td>@taskObject.DueDate?.ToString("MM-dd-yyyy")</td>
+                    <td>@taskObject.Type</td>
+                    <td><button class="btn btn-sm btn-danger" @onclick="() => ConfirmDelete(taskObject)">Delete</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <br/>
+
+    <h5><u>Daily</u></h5>
+    <table class="table table-success">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>DueDate</th>
+                <th>Type</th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var taskObject in completedTasks.Where(t => t.Type == TaskType.Daily))
+            {
+                <tr>
+                    <td>@taskObject.Id</td>
+                    <td>@taskObject.Title</td>
+                    <td>@taskObject.Description</td>
+                    <td>@taskObject.Priority</td>
+                    <td>@taskObject.DueDate?.ToString("MM-dd-yyyy")</td>
+                    <td>@taskObject.Type</td>
+                    <td><button class="btn btn-sm btn-danger" @onclick="() => ConfirmDelete(taskObject)">Delete</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <br/>
+
+    <h5><u>Weekly</u></h5>
+    <table class="table table-success">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>DueDate</th>
+                <th>Type</th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var taskObject in completedTasks.Where(t => t.Type == TaskType.Weekly))
+            {
+                <tr>
+                    <td>@taskObject.Id</td>
+                    <td>@taskObject.Title</td>
+                    <td>@taskObject.Description</td>
+                    <td>@taskObject.Priority</td>
+                    <td>@taskObject.DueDate?.ToString("MM-dd-yyyy")</td>
+                    <td>@taskObject.Type</td>
+                    <td><button class="btn btn-sm btn-danger" @onclick="() => ConfirmDelete(taskObject)">Delete</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <br />
+
+    <h5><u>Monthly</u></h5>
+    <table class="table table-success">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>DueDate</th>
+                <th>Type</th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var taskObject in completedTasks.Where(t => t.Type == TaskType.Monthly))
             {
                 <tr>
                     <td>@taskObject.Id</td>

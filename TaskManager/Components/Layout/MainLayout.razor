@@ -14,21 +14,27 @@
         <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Href="https://github.com/STMcLemore" Target="_blank" />
      </MudAppBar>
 
-    <MudPaper Width="250px" Elevation="1" Class="py-3" Style="position: fixed; top: 64px; left: 0; height: calc(100% - 64px);">
+    <MudDrawer @bind-Open="@_open">
             <MudNavMenu Bordered="true">
                     <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.OtherHouses" Href="/">Active Tasks</MudNavLink>
                     <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AddBox" Href="addtask">Add New Task</MudNavLink>
                     <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.CheckBox" Href="completedtasks">Completed Tasks</MudNavLink>
             </MudNavMenu>
-         </MudPaper>
+    </MudDrawer>
     
     <MudMainContent Class="flex-grow-1">
         <MudContainer Class="mt-6">
             @Body
         </MudContainer>
     </MudMainContent> 
-</MudLayout>    
+</MudLayout>
 
+@code
+{
+    private bool _open = true;
 
-
-
+    private void ToggleDrawer()
+    {
+        _open = !_open;
+    }
+}

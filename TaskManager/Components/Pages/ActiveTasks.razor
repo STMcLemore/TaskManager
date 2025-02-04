@@ -14,7 +14,8 @@
 }
 else
 {
-    <MudPaper Width="100%" Style="max-height: 500px; overflow-y: auto; padding: 16px;">
+    <h5><u> One Offs</u></h5>
+    <MudPaper >
             <table class="table" style="width: 100%;">
                     <thead>
                         <tr>
@@ -24,10 +25,11 @@ else
                             <th>Priority</th>
                             <th>DueDate</th>
                             <th>Type</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var taskObject in tasks)
+                @foreach (var taskObject in tasks.Where(t => t.Type == TaskType.Once))
                         {
                             <tr>
                                 <td>@taskObject.Id</td>
@@ -46,11 +48,120 @@ else
                     </tbody>
             </table>
     </MudPaper>
-         
+
+    <br/>
+
+    <h5><u> Daily</u></h5>
+    <MudPaper>
+        <table class="table" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Priority</th>
+                    <th>DueDate</th>
+                    <th>Type</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var taskObject in tasks.Where(t => t.Type == TaskType.Daily))
+                {
+                    <tr>
+                        <td>@taskObject.Id</td>
+                        <td>@taskObject.Title</td>
+                        <td>@taskObject.Description</td>
+                        <td>@taskObject.Priority</td>
+                        <td>@taskObject.DueDate?.ToString("MM-dd-yyyy")</td>
+                        <td>@taskObject.Type</td>
+                        <td>
+                            <button class="btn btn-sm btn-success" @onclick="() => ConfirmCompletion(taskObject)">Mark Complete</button>
+                            <button class="btn btn-sm btn-secondary" @onclick="() => EditTask(taskObject)">Edit Task</button>
+                            <button class="btn btn-sm btn-danger" @onclick="() => ConfirmDelete(taskObject)">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </MudPaper>
+
+    <br />
+
+    <h5><u> Weekly</u></h5>
+    <MudPaper>
+        <table class="table" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Priority</th>
+                    <th>DueDate</th>
+                    <th>Type</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var taskObject in tasks.Where(t => t.Type == TaskType.Weekly))
+                {
+                    <tr>
+                        <td>@taskObject.Id</td>
+                        <td>@taskObject.Title</td>
+                        <td>@taskObject.Description</td>
+                        <td>@taskObject.Priority</td>
+                        <td>@taskObject.DueDate?.ToString("MM-dd-yyyy")</td>
+                        <td>@taskObject.Type</td>
+                        <td>
+                            <button class="btn btn-sm btn-success" @onclick="() => ConfirmCompletion(taskObject)">Mark Complete</button>
+                            <button class="btn btn-sm btn-secondary" @onclick="() => EditTask(taskObject)">Edit Task</button>
+                            <button class="btn btn-sm btn-danger" @onclick="() => ConfirmDelete(taskObject)">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </MudPaper>
+
+    <br />
+
+    <h5><u> Monthly</u></h5>
+    <MudPaper>
+        <table class="table" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Priority</th>
+                    <th>DueDate</th>
+                    <th>Type</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var taskObject in tasks.Where(t => t.Type == TaskType.Monthly))
+                {
+                    <tr>
+                        <td>@taskObject.Id</td>
+                        <td>@taskObject.Title</td>
+                        <td>@taskObject.Description</td>
+                        <td>@taskObject.Priority</td>
+                        <td>@taskObject.DueDate?.ToString("MM-dd-yyyy")</td>
+                        <td>@taskObject.Type</td>
+                        <td>
+                            <button class="btn btn-sm btn-success" @onclick="() => ConfirmCompletion(taskObject)">Mark Complete</button>
+                            <button class="btn btn-sm btn-secondary" @onclick="() => EditTask(taskObject)">Edit Task</button>
+                            <button class="btn btn-sm btn-danger" @onclick="() => ConfirmDelete(taskObject)">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </MudPaper>
 
 
 
-    
 
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="margin-top: -100px;">
@@ -146,9 +257,8 @@ else
     private TaskObject? selectedTask = new();
     private int selectedTaskId;
     private TaskObject editingTask = new(); // Temporary model for use in the EditTask modal to ensure no changes are shown until saved
-    private bool hover = true;
-    private bool striped = true;
-    private bool dense = true;
+    private MudTable<TaskObject> _table;
+    private bool _selectionChangeable = true;
 
 
     protected override async Task OnInitializedAsync()
@@ -181,6 +291,7 @@ else
             task.IsCompleted = true;
             await Http.PutAsJsonAsync($"api/task/{id}", task);
 
+            selectedTask.IsCompleted = true;
             tasks.Remove(task);
             completedTasks.Add(task);
             StateHasChanged();
@@ -238,7 +349,6 @@ else
                 selectedTask.Priority = editingTask.Priority;
                 selectedTask.DueDate = editingTask.DueDate;
                 selectedTask.Type = editingTask.Type;
-
                 StateHasChanged();
                 await JSRuntime.InvokeVoidAsync("bootstrapModal.hide", "#editModal");
             }
