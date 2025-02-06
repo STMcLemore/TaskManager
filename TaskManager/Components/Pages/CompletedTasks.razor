@@ -220,21 +220,44 @@
         JSRuntime.InvokeVoidAsync("bootstrapModal.show", "#deleteAllModal");
     }
 
+    // private async Task DeleteAllTasks()
+    // {
+    //     if (completedTasks.Any())
+    //     {
+    //         foreach (var task in completedTasks.Where(t => t.Type == TaskType.Once))
+    //         {
+    //             var response = await Http.DeleteAsync($"api/task/{task.Id}");
+    //             if (response.IsSuccessStatusCode)
+    //             {
+    //                 completedTasks.Remove(task);
+    //                 StateHasChanged();
+    //             }
+
+    //             await JSRuntime.InvokeVoidAsync("bootstrapModal.hide", "#deleteAllModal");
+    //         }
+    //     }
+    // }
+
     private async Task DeleteAllTasks()
     {
         if (completedTasks.Any())
         {
-            foreach (var task in completedTasks.ToList())
+            // Create a list of tasks to remove to avoid modifying the collection during iteration.
+            var tasksToRemove = completedTasks.Where(t => t.Type == TaskType.Once).ToList();
+
+            foreach (var task in tasksToRemove)
             {
                 var response = await Http.DeleteAsync($"api/task/{task.Id}");
                 if (response.IsSuccessStatusCode)
                 {
                     completedTasks.Remove(task);
-                    StateHasChanged();
                 }
-
-                await JSRuntime.InvokeVoidAsync("bootstrapModal.hide", "#deleteAllModal");
             }
+
+            StateHasChanged();
+
+            await JSRuntime.InvokeVoidAsync("bootstrapModal.hide", "#deleteAllModal");
         }
     }
+
 }
