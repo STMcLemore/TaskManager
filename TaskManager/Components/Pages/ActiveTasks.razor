@@ -295,10 +295,42 @@ else
             tasks.Remove(task);
             completedTasks.Add(task);
             StateHasChanged();
+
+            if (task.Type != TaskType.Once)
+            {
+                // Run the rescheduling asynchronously (fire-and-forget).
+                _ = RescheduleRecurringTask(task);
+            }
         }
 
         await JSRuntime.InvokeVoidAsync("bootstrapModal.hide", "#completeModal");
 
+    }
+
+    private async Task RescheduleRecurringTask(TaskObject task) //schedule completed tasks to be readded to active tasks if recurring
+    {
+        TimeSpan delay = task.Type switch
+        {
+            TaskType.Daily => TimeSpan.FromDays(1),
+            TaskType.Weekly => TimeSpan.FromDays(7),
+            TaskType.Monthly => TimeSpan.FromDays(30),
+            _ => TimeSpan.Zero
+        };
+
+        await Task.Delay(delay);
+
+        task.DueDate = DateTime.Today;
+
+        task.IsCompleted = false;
+
+        var updateResponse = await Http.PutAsJsonAsync($"api/task/{task.Id}", task);
+        if (updateResponse.IsSuccessStatusCode)
+        {
+            completedTasks.Remove(task);
+            tasks.Add(task);
+
+            StateHasChanged();
+        }
     }
 
 

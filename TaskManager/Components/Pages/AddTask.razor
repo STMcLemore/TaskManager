@@ -1,9 +1,9 @@
 ﻿@page "/addtask"
 @using Microsoft.AspNetCore.Components.Forms
 @using MudBlazor.Utilities
+@using FluentValidation
 @inject IHttpClientFactory HttpClientFactory
 @rendermode InteractiveServer
-@using FluentValidation
 
 
 
@@ -84,6 +84,9 @@
 
 @code
 {
+    private HttpClient Http => HttpClientFactory.CreateClient("ApiClient");
+    private List<TaskObject> tasks = new();
+    private List<TaskObject> completedTasks = new();
 
     private TaskObject taskObject = new TaskObject
     {
